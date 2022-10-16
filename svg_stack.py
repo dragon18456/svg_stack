@@ -731,6 +731,9 @@ stdout.
     parser.add_option("--direction",type='str',
                       default='vertical',
                       help='horizontal or vertical (or h or v)')
+    parser.add_option("--outfile",
+                      default=None,
+                      help='Outfile')
     (options, args) = parser.parse_args()
     fnames = args
 
@@ -746,10 +749,10 @@ stdout.
     else:
         margin_px = 0
 
-    if 0:
-        fd = open('tmp.svg',mode='w')
-    else:
+    if options.outfile is None:
         fd = sys.stdout
+    else:
+        fd = open(options.outfile, mode='w')
 
     doc = Document()
     if direction == 'vertical':
