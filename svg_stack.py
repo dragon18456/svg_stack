@@ -21,7 +21,7 @@
 ## THE SOFTWARE.
 
 from lxml import etree # Ubuntu Karmic package: python-lxml
-import sys, re, os
+import sys, re, os, glob
 import base64
 from optparse import OptionParser
 from io import IOBase
@@ -712,6 +712,13 @@ class VBoxLayout(BoxLayout):
     def __init__(self, parent=None):
         super(VBoxLayout, self).__init__(TopToBottom, parent=parent)
 
+
+def get_files(globbed_fnames):
+  """Gets full list of file names."""
+  return [fname for globbed_fname in globbed_fnames
+          for fname in glob.iglob(globbed_fname)]
+
+
 # ------------------------------------------------------------------
 
 def main():
@@ -735,7 +742,6 @@ stdout.
                       default=None,
                       help='Outfile')
     (options, args) = parser.parse_args()
-    fnames = args
 
     if options.direction.lower().startswith('v'):
         direction = 'vertical'
@@ -760,7 +766,7 @@ stdout.
     elif direction == 'horizontal':
         layout = HBoxLayout()
 
-    for fname in fnames:
+    for fname in get_files(args):
         layout.addSVG(fname, alignment=AlignCenter)
 
     layout.setSpacing(margin_px)
