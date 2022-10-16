@@ -155,11 +155,7 @@ def export_images( elem, filename_fmt='image%03d', start_idx=1 ):
                                start_idx=(start_idx+count) )
     return count
 
-header_str = """<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Created with svg_stack (http://github.com/astraw/svg_stack) -->
-"""
+header_str = '<?xml version="1.0" encoding="UTF-8"?>'
 
 # ------------------------------------------------------------------
 class Document(object):
@@ -187,6 +183,7 @@ class Document(object):
         buf = accum.tostring(pretty_print=True)
 
         fd.write(header_str)
+        fd.write('\n')
         fd.write( buf.decode() )
         if close:
             fd.close()
